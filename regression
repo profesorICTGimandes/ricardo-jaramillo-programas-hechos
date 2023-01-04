@@ -1,0 +1,57 @@
+import matplotlib.pyplot as plt
+import numpy as np
+pwd
+df = pd.read_csv(r'/content/03-atrapalo-30.11.18.11.32.00.csv')
+df.head
+df.groupby(by="F7")["F4"].describe(include="all")
+np.corrcoef(df["real f7"], df["real f4"])
+data = np.unique(df.F4, return_counts= True )
+df.dtypes
+df.groupby(by="int F3")["int AF3", "int F4"].mean()
+df.groupby(by="tiempo")["af3"].max()
+df.groupby(by="int F3")["int AF3", "int F4"].mean()
+dfduplicate=df.append(df)
+dfduplicate = dfduplicate.sample(frac=1)
+df['int F3'].corr(df['int F4'], method='pearson')#correlacion
+np.random.seed(42)
+df = pd.DataFrame(np.random.randn(1000, 14),
+                  columns=['int F4', 'int F3', 'int AF3', 'int AF4',
+                           'int F7','int F8','int FC6',
+                           'int O2','int O1','int T7',
+                           'int T8','int FC5',
+                           'int P7','int P8'])
+df.cov()#covarianza
+from sklearn import tree#se llama la libreria(tree) de la página sklearn
+from sklearn.metrics import r2_score#se llama la libreria(metricas y r2_score) 
+                                    #de la página sklearn  
+x=df[["f3", "f7", "fc5","p7", "o1", "t7" ]]#se cargan las
+#varibles con las que se generara predicción
+
+df_test=df.tail(1000)#tomamos una muestra del 10% o mas del archivo original para
+#evaluar el algoritmo
+x_test = df_test[["f3", "f7", "fc5","p7", "o1", "t7" ]]
+#se toman las mismas variables con las que vamos a predecir y hacemos un archivo de 
+#variables para predecir o predictores para el conjunto de evaluación
+y = df["f4"]#escogemos la variable que vamos a predecir
+y_test=df_test["f4"]#escogemos la variable a predecir para nuestro apartado para
+#evaluar el algoritmo
+clf = tree.DecisionTreeRegressor()# creamos nuestro modelo de predicción con arboles
+  #de decisión
+clf = clf.fit(x,y)#ajustamos el modelo indicandole las variables por usar x predictores
+  #y variable a predecir
+y_pred = clf.predict(x)#se procede a producir el modelo de predicción
+y_pred_test = clf.predict(x_test) #se procede a evaluar el modelo de predicción
+#con el subconjunto de test
+np.mean(y==y_pred)#la media de la variable se evaluan la media de la variable original
+#y la variable predicha
+np.mean(y_test == y_pred_test)#la media de la variable original de test 
+#se evaluan la variable predicha del conjunto de test.
+clf = tree.DecisionTreeRegressor()
+y=df["int F4"]
+y_test=df_test["int F4"]
+clf=clf.fit(x,y)
+y_pred=clf.predict(x)
+y_pred_test=clf.predict(x_test) 
+
+print( r2_score(y, y_pred))
+print( r2_score(y_test, y_pred_test))
